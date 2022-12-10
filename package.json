@@ -1,0 +1,22 @@
+{
+    "name": "remove-html-comments",
+    "description": "Quickly and easily clean up your HTML code. This extension emoves all HTML comments, improving readability and making it easier to work with.",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.0.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.removeHtmlComments"
+    ],
+    "main": "./extension.js",
+    "author": "r44cx",
+    "icons": {
+        "128": "icon.png"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0"
+    }
+}
