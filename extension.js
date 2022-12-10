@@ -1,9 +1,13 @@
 const vscode = require('vscode');
 
+/**
+ * @param {vscode.ExtensionContext} context
+ */
 function activate(context) {
-    console.log('Congratulations, remove-html-comments is now active!');
 
-    let disposable = vscode.commands.registerCommand('extension.removeHtmlComments', function() {
+    console.log('Congratulations, your extension "remove-html-comments" is now active!');
+
+    let disposable = vscode.commands.registerCommand('remove-html-comments.removeAll', function() {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
 
@@ -31,4 +35,11 @@ function activate(context) {
 
     context.subscriptions.push(disposable);
 }
-exports.activate = activate;
+
+// This method is called when your extension is deactivated
+function deactivate() {}
+
+module.exports = {
+    activate,
+    deactivate
+}
