@@ -29,7 +29,7 @@
     "contributes": {
         "commands": [{
             "command": "remove-html-comments.removeAll",
-            "title": "remove html comments"
+            "title": "Remove All HTML Comments"
         }]
     },
     "scripts": {

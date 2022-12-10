@@ -8,31 +8,30 @@ function activate(context) {
     console.log('Congratulations, your extension "remove-html-comments" is now active!');
 
     let disposable = vscode.commands.registerCommand('remove-html-comments.removeAll', function() {
-        // Get the active text editor
-        const editor = vscode.window.activeTextEditor;
 
-        if (!editor) {
-            return;
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || !editor.document) return;
+
+        // Use a regular expression to find all HTML comments in the document
+        let regex = /<!--[\s\S]*?-->/g;
+        let text = editor.document.getText();
+        let matches = text.match(regex);
+
+        // Replace each HTML comment with an empty string
+        let replacePromises = [];
+        for (let match of matches) {
+            let startPos = editor.document.positionAt(text.indexOf(match));
+            let endPos = editor.document.positionAt(text.indexOf(match) + match.length);
+            replacePromises.push(editor.edit(editBuilder => {
+                editBuilder.replace(startPos, endPos, '');
+            }));
         }
 
-        // Get the current selection
-        const selection = editor.selection;
-
-        // Get the selected text
-        const text = editor.document.getText(selection);
-
-        // Use a regular expression to match HTML comments
-        const commentRegex = /<!--(.|\n)*?-->/g;
-
-        // Replace the comments with an empty string
-        const updatedText = text.replace(commentRegex, '');
-
-        // Replace the selected text with the updated text
-        editor.edit(editBuilder => {
-            editBuilder.replace(selection, updatedText);
+        // Wait for all replaces to complete before saving the document
+        Promise.all(replacePromises).then(() => {
+            editor.document.save();
         });
     });
-
     context.subscriptions.push(disposable);
 }
 
